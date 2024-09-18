@@ -8,6 +8,7 @@ class CNP:
         self.day = None
         self.county = None
         self.first_char = None
+        self.message = " "
 
     # check the length of the CNP. it has to be a specific length of 13
     def check_length(self):
@@ -32,11 +33,11 @@ class CNP:
     def check_century(self):
         century_list = ['18','19','20']
         if self.first_char in (1,2):
-            self.century = century_list[self.first_char]
+            self.century = century_list[0]
         elif self.first_char in (3,4):
-            self.century = century_list[self.first_char]
+            self.century = century_list[1]
         elif self.first_char in (5,6):
-            self.century = century_list[self.first_char]   
+            self.century = century_list[2]   
 
     #get the century of birth(18, 19 or 20)     
     def get_century(self):
@@ -185,15 +186,14 @@ class MainFunction():
             luna = cnp_person.check_month()
             cnp_person.get_county()
             county = cnp_person.check_county()
-
             cnp_person.check_control_digit()
 
-            # Return formatted details if all checks pass
-            return f'''
-{person.nume} {person.prenume}, de sex {sex}, 
-nascut la data de: ziua {day}, luna {luna}, anul {year}
-in judetul {county}
+            message = f'''{person.nume.upper()} {person.prenume.upper()}, de sex {sex.upper()}, 
+nascut la data de: ziua {day}, luna {luna.upper()}, anul {year}
+in judetul {county.upper()}
             '''
+            # Return formatted details if all checks pass
+            return message
 
         except InvalidCNPError as e:
             # Check the code and display appropriate error message
